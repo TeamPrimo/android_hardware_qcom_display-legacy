@@ -6,6 +6,8 @@ common_includes += hardware/qcom/display-legacy/libcopybit
 common_includes += hardware/qcom/display-legacy/libqdutils
 common_includes += hardware/qcom/display-legacy/libhwcomposer
 
+common_header_export_path := qcom/display-legacy
+
 ifeq ($(TARGET_USES_POST_PROCESSING),true)
     common_flags     += -DUSES_POST_PROCESSING
     common_includes += $(TARGET_OUT_HEADERS)/pp/inc
@@ -30,12 +32,5 @@ ifeq ($(TARGET_USES_QCOM_BSP),true)
     common_flags += -DQCOM_BSP
 endif
 
-common_deps :=
-kernel_includes :=
-
-ifneq ($(TARGET_PREBUILT_HEADERS),true)
-ifeq ($(call is-vendor-board-platform,QCOM),true)
-     common_deps += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
-     kernel_includes += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
- endif
-endif
+common_deps += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+kernel_includes += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
